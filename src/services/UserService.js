@@ -1,6 +1,7 @@
 const User = require("../models/UserModel");
 const bcrypt = require("bcrypt");
 const { generalAccessToken, generalRefreshToken } = require("./JwtService");
+const { all } = require("../routes/UserRouter");
 
 const createUser = (newUser) => {
   return new Promise(async (resolve, reject) => {
@@ -51,7 +52,6 @@ const loginUser = (userLogin) => {
       }
 
       const comparePassword = bcrypt.compareSync(password, checkUser.password);
-      console.log(comparePassword);
 
       if (!comparePassword) {
         resolve({
@@ -69,8 +69,6 @@ const loginUser = (userLogin) => {
         id: checkUser.id,
         isAdmin: checkUser.isAdmin
       })
-
-      console.log('access_token', access_token)
 
       resolve({
         status: "OK",
@@ -113,8 +111,84 @@ const updateUser = (id, data) => {
   });
 };
 
+const deleteUser = (id) => {
+  return new Promise(async (resolve, reject) => {
+    try {
+      const checkUser = await User.findOne({
+         _id: id 
+        });
+      console.log("checkUser", checkUser);
+
+
+      if (checkUser === null) {
+        resolve({
+          status: "OK",
+          message: "Email is not exist",
+        });
+      }
+
+      await User.findByIdAndDelete(id)
+
+      resolve({
+        status: "OK",
+        message: "Delete user success"
+      });
+    } catch (e) {
+      reject(e);
+    }
+  });
+};
+
+const getAllUser = () => {
+  return new Promise(async (resolve, reject) => {
+    try {
+      const allUser = await User.find()
+
+      resolve({
+        status: "OK",
+        message: "Success",
+        data: allUser
+      });
+    } catch (e) {
+      reject(e);
+    }
+  });
+};
+
+const getDetailsUser = (id) => {
+  return new Promise(async (resolve, reject) => {
+    try {
+      const checkUser = await User.findOne({
+         _id: id 
+        });
+      console.log("checkUser", checkUser);
+
+
+      if (checkUser === null) {
+        resolve({
+          status: "OK",
+          message: "Email is not exist",
+        });
+      }
+
+      resolve({
+        status: "OK",
+        message: "Success",
+        data: checkUser
+      });
+    } catch (e) {
+      reject(e);
+    }
+  });
+};
+
+
+
 module.exports = {
   createUser,
   loginUser,
-  updateUser
+  updateUser,
+  deleteUser,
+  getAllUser,
+  getDetailsUser
 };
