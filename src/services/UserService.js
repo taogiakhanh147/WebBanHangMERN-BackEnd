@@ -88,12 +88,10 @@ const updateUser = (id, data) => {
       const checkUser = await User.findOne({
          _id: id 
         });
-      console.log("checkUser", checkUser);
-
 
       if (checkUser === null) {
         resolve({
-          status: "OK",
+          status: "ERR",
           message: "Email is not exist",
         });
       }
@@ -161,8 +159,6 @@ const getDetailsUser = (id) => {
       const checkUser = await User.findOne({
          _id: id 
         });
-      console.log("checkUser", checkUser);
-
 
       if (checkUser === null) {
         resolve({
