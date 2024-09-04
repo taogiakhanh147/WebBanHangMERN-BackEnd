@@ -8,7 +8,7 @@ const createUser = async (req, res) => {
     const isCheckEmail = reg.test(email);
 
     // Trường hợp thiếu 1 trường dữ liệu
-    if (!name || !email || !password || !confirmPassword || !phone) {
+    if (!email || !password || !confirmPassword ) {
       return res.status(200).json({
         status: "ERR",
         message: "The input is required",
@@ -47,7 +47,7 @@ const loginUser = async (req, res) => {
     const isCheckEmail = reg.test(email);
 
     // Trường hợp thiếu 1 trường dữ liệu
-    if (!name || !email || !password || !confirmPassword || !phone) {
+    if (!email || !password) {
       return res.status(200).json({
         status: "ERR",
         message: "The input is required",
@@ -62,16 +62,13 @@ const loginUser = async (req, res) => {
       });
     }
 
-    // Trường hợp password không trùng khớp với confirmPassword
-    else if (password != confirmPassword) {
-      return res.status(200).json({
-        status: "ERR",
-        message: "The password is equal confirmpassword",
-      });
-    }
-
-    const ressponse = await UserService.loginUser(req.body);
-    return res.status(200).json(ressponse);
+    const response = await UserService.loginUser(req.body);
+    const {refresh_token, ...newReponse} = response
+    res.cookie("refresh_token", refresh_token, {
+      HttpOnly: true,
+      Secure: true,
+    })
+    return res.status(200).json(newReponse);
   } catch (e) {
     return res.status(404).json({
       message: e,
@@ -150,10 +147,10 @@ const getDetailsUser = async (req, res) => {
 
 const refreshToken = async (req, res) => {
   try {
-    const token = req.headers.token.split(' ')[1]
+    const token = req.cookies.refresh_token
     if (!token) {
       return res.status(200).json({
-        status: "OK",
+        status: "ERR",
         message: "The token is require",
       })
     }
