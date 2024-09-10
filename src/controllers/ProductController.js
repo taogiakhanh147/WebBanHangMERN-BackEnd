@@ -5,7 +5,6 @@ const createProduct = async (req, res) => {
   try {
     const { name, image, type, price, countInStock, rating, description } =
       req.body;
-    // console.log(req.body);
 
     // // Trường hợp thiếu 1 trường dữ liệu
     if (!name || !image || !type || !price || !countInStock || !rating) {
@@ -46,6 +45,7 @@ const updateProduct = async (req, res) => {
 const getDetailsProduct = async (req, res) => {
   try {
     const productId = req.params.id;
+    console.log(productId)
     if (!productId) {
       return res.status(200).json({
         status: "ERR",

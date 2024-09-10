@@ -115,8 +115,6 @@ const deleteUser = (id) => {
       const checkUser = await User.findOne({
          _id: id 
         });
-      console.log("checkUser", checkUser);
-
 
       if (checkUser === null) {
         resolve({

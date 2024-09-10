@@ -91,7 +91,6 @@ const updateUser = async (req, res) => {
         message: "The userId is require",
       });
     }
-    console.log("userId", userId);
     const ressponse = await UserService.updateUser(userId, data);
     return res.status(200).json(ressponse);
   } catch (e) {
@@ -111,7 +110,6 @@ const deleteUser = async (req, res) => {
         message: "The userId is require",
       });
     }
-    console.log("userId", userId);
     const ressponse = await UserService.deleteUser(userId);
     return res.status(200).json(ressponse);
   } catch (e) {
