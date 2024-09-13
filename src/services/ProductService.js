@@ -127,50 +127,6 @@ const deleteManyProduct = (ids) => {
   });
 };
 
-// const getAllProduct = (limit, page, sort, filter) => {
-//   return new Promise(async (resolve, reject) => {
-//     try {
-//       const totalProduct = await Product.countDocuments()
-//       if(filter) {
-//         const label = filter[0]
-//         const allProductFilter = await Product.find({ [label]: {'$regex': filter[1]}}).limit(limit).skip(page * limit);
-//         resolve({
-//           status: "OK",
-//           message: "SUCCESS",
-//           data: allProductFilter,
-//           total: totalProduct,
-//           currenPage: page + 1,
-//           totalPage: Math.ceil(totalProduct / limit)
-//         });
-//       }
-//       if(sort) {
-//         const objectSort = {}
-//         objectSort[sort[1]] = sort[0]
-//         const allProductSort = await Product.find().limit(limit).skip(page * limit).sort(objectSort);
-//         resolve({
-//           status: "OK",
-//           message: "SUCCESS",
-//           data: allProductSort,
-//           total: totalProduct,
-//           currenPage: page + 1,
-//           totalPage: Math.ceil(totalProduct / limit)
-//         });
-//       }
-//       const allProduct = await Product.find().limit(limit).skip(page * limit);
-//       resolve({
-//         status: "OK",
-//         message: "SUCCESS",
-//         data: allProduct,
-//         total: totalProduct,
-//         currenPage: page + 1,
-//         totalPage: Math.ceil(totalProduct / limit)
-//       });
-//     } catch (e) {
-//       reject(e);
-//     }
-//   });
-// };
-
 const getAllProduct = (limit, page, sort, filter) => {
   return new Promise(async (resolve, reject) => {
     try {
@@ -206,6 +162,22 @@ const getAllProduct = (limit, page, sort, filter) => {
   });
 };
 
+const getAllType = () => {
+  return new Promise(async (resolve, reject) => {
+    try {
+      const allType = await Product.distinct('type');
+      resolve({
+        status: "OK",
+        message: "SUCCESS",
+        data: allType
+      });
+      
+    } catch (e) {
+      reject(e);
+    }
+  });
+};
+
 
 module.exports = {
   createProduct,
@@ -213,5 +185,6 @@ module.exports = {
   getDetailProduct,
   deleteProduct,
   getAllProduct,
-  deleteManyProduct
+  deleteManyProduct,
+  getAllType
 };
