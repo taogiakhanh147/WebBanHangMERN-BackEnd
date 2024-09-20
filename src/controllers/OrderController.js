@@ -5,8 +5,7 @@ const createOrder = async (req, res) => {
     const { paymentMethod, itemsPrice, shippingPrice, totalPrice, fullName, address, city, phone } =
       req.body;
     // Trường hợp thiếu 1 trường dữ liệu
-    if (!paymentMethod || !itemsPrice || !shippingPrice || !totalPrice || !fullName || !address || !city || !phone) {
-      
+    if (!paymentMethod || !itemsPrice || shippingPrice === null || !totalPrice || !fullName || !address || !city || !phone) {
       return res.status(200).json({
         status: "ERR",
         message: "The input is required",
@@ -62,13 +61,14 @@ const getDetailsOrder = async (req, res) => {
 const cancelOrderDetails = async (req, res) => {
   try {
       const orderId = req.params.id
+      const data = req.body
       if (!orderId) {
           return res.status(200).json({
               status: 'ERR',
               message: 'The userId is required'
           })
       }
-      const response = await OrderService.cancelOrderDetails(orderId)
+      const response = await OrderService.cancelOrderDetails(orderId, data)
       return res.status(200).json(response)
   } catch (e) {
       console.log(e)
