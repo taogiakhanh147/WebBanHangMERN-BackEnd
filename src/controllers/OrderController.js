@@ -32,7 +32,6 @@ const getAllOrderDetails = async (req, res) => {
       const response = await OrderService.getAllOrderDetails(userId)
       return res.status(200).json(response)
   } catch (e) {
-      console.log(e)
       return res.status(404).json({
           message: e
       })
@@ -51,7 +50,6 @@ const getDetailsOrder = async (req, res) => {
       const response = await OrderService.getOrderDetails(orderId)
       return res.status(200).json(response)
   } catch (e) {
-      console.log(e)
       return res.status(404).json({
           message: e
       })
@@ -71,7 +69,6 @@ const cancelOrderDetails = async (req, res) => {
       const response = await OrderService.cancelOrderDetails(orderId, data)
       return res.status(200).json(response)
   } catch (e) {
-      console.log(e)
       return res.status(404).json({
           message: e
       })
