@@ -82,7 +82,7 @@ const createOrder = (newOrder) => {
 
       // Gửi email xác nhận nếu đơn hàng được tạo thành công
       if (createdOrder) {
-        // await EmailService.sendEmailCreateOrder(email, orderItems);
+        await EmailService.sendEmailCreateOrder(email, orderItems);
         return resolve({
           status: "OK",
           message: "Đặt hàng thành công",
