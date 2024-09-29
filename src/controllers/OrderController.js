@@ -105,11 +105,49 @@ const getAllOrder = async (req, res) => {
   }
 }
 
+const deleteOrderAdmin = async (req, res) => {
+  try {
+    const orderId = req.params.id
+    if (!orderId) {
+      return res.status(200).json({
+        status: "ERR",
+        message: "orderId is require"
+      })
+    }
+    const ressponse = await OrderService.deleteOrderAdmin(orderId)
+    return res.status(200).json(ressponse)
+  } catch (e) {
+    return res.status(404).json({
+      message: e,
+    });
+  }
+};
+
+const deleteMany = async (req, res) => {
+  try {
+    const ids = req.body.ids
+    if (!ids) {
+      return res.status(200).json({
+        status: "ERR",
+        message: "ids is require"
+      })
+    }
+    const ressponse = await OrderService.deleteManyOrder(ids)
+    return res.status(200).json(ressponse)
+  } catch (e) {
+    return res.status(404).json({
+      message: e,
+    });
+  }
+};
+
 module.exports = {
     createOrder,
     getAllOrderDetails,
     getDetailsOrder,
     cancelOrderDetails,
     getAllOrder,
-    getDetailsOrderAdmin
+    getDetailsOrderAdmin,
+    deleteOrderAdmin,
+    deleteMany
 };

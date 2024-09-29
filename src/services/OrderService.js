@@ -228,11 +228,50 @@ const getDetailsOrderAdmin = (id) => {
   })
 }
 
+const deleteOrderAdmin = (id) => {
+  return new Promise(async (resolve, reject) => {
+    try {
+      const checkOrder = await Order.findOne({
+        _id: id,
+      });
+      if (checkOrder === null) {
+        resolve({
+          status: "ERR",
+          message: "checkOrder is not exist",
+        });
+      }
+      await Order.findByIdAndDelete(id);
+      resolve({
+        status: "OK",
+        message: "SUCCESS",
+      });
+    } catch (e) {
+      reject(e);
+    }
+  });
+};
+
+const deleteManyOrder = (ids) => {
+  return new Promise(async (resolve, reject) => {
+    try {
+      await Order.deleteMany({_id: ids});
+      resolve({
+        status: "OK",
+        message: "SUCCESS",
+      });
+    } catch (e) {
+      reject(e);
+    }
+  });
+};
+
 module.exports = {
   createOrder,
   getAllOrderDetails,
   getOrderDetails,
   cancelOrderDetails,
   getAllOrder,
-  getDetailsOrderAdmin
+  getDetailsOrderAdmin,
+  deleteOrderAdmin,
+  deleteManyOrder
 };
