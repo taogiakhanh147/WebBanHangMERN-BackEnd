@@ -205,10 +205,34 @@ const getAllOrder = () => {
   })
 }
 
+const getDetailsOrderAdmin = (id) => {
+  return new Promise( async (resolve, reject) => {
+    try {
+      const checkOrder = await Order.findOne({
+        _id: id
+      })
+      if(!checkOrder) {
+        resolve({
+          status: "ERR",
+          message: "Order is not exist"
+        })
+      }
+      resolve ({
+        status: "OK",
+        message: "SUCCESS",
+        data: checkOrder,
+      })
+    } catch(e) {
+      reject(e)
+    }
+  })
+}
+
 module.exports = {
   createOrder,
   getAllOrderDetails,
   getOrderDetails,
   cancelOrderDetails,
-  getAllOrder
+  getAllOrder,
+  getDetailsOrderAdmin
 };

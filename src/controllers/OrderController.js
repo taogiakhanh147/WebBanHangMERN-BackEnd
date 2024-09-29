@@ -56,6 +56,24 @@ const getDetailsOrder = async (req, res) => {
   }
 }
 
+const getDetailsOrderAdmin = async(req,res) => {
+  try {
+    const {orderId} = req.body
+    if(!orderId) {
+      return res.status(400).json({
+        status: "ERR",
+        message: "OrderId not find"
+      })
+    }
+    const response = await OrderService.getDetailsOrderAdmin(orderId)
+    return res.status(200).json(response)
+  } catch(e) {
+    return res.status(404).json({
+      message: e
+    })
+  }
+}
+
 const cancelOrderDetails = async (req, res) => {
   try {
       const orderId = req.params.id
@@ -92,5 +110,6 @@ module.exports = {
     getAllOrderDetails,
     getDetailsOrder,
     cancelOrderDetails,
-    getAllOrder
+    getAllOrder,
+    getDetailsOrderAdmin
 };
